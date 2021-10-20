@@ -1,0 +1,35 @@
+{
+  "name": "krastorio-2-space-exploration-modpack",
+  "version": "1.0.0",
+  "license": "MIT",
+  "files": [
+    "build/*.lua",
+    "graphics/",
+    "locale/",
+    "info.json",
+    "license.txt",
+    "thumbnail.png",
+    "changelog.txt"
+  ],
+  "devDependencies": {
+    "@types/node": "^16.10.5",
+    "factorio-api-types": "git+https://github.com/DiefBell/factorio-api-types.git",
+    "lua-types": "^2.11.0",
+    "ts-node": "^10.3.0",
+    "tslint": "^6.1.3",
+    "typescript-to-lua": "^1.0.1",
+    "zip-dir": "^2.0.0"
+  },
+  "scripts": {
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "prebuild": "yarn run lint",
+    "build": "tstl --project tsconfig.json",
+    "bundle": "rm -rf dist && mkdir \"dist/krastorio-2-space-exploration-modpack\" && cp build/* graphics locale info.json license.txt thumbnail.png changelog.txt -r \"dist/krastorio-2-space-exploration-modpack\"",
+    "postbundle": "ts-node scripts/setFolderVersion.ts",
+    "prepare": "yarn build && yarn run bundle",
+    "zip": "ts-node scripts/zipPackage.ts",
+    "package": "yarn prepare && yarn run zip",
+    "launch": "yarn run package && \"C:\\Program Files (x86)\\Steam\\steam.exe\" steam://rungameid/427520",
+    "list-mods": "ts-node scripts/listDownloadedMods.ts"
+  }
+}
